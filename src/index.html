@@ -1,0 +1,731 @@
+<!-- 
+Data source:
+    Operator precedence - JavaScript | MDN
+    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
+
+Created 2015-07-29 by hansifer
+-->
+<!DOCTYPE html>
+<html itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="description" content="A JavaScript language reference for quickly finding the relative precedence of two operators." />
+    <meta itemprop="image" content="http://hansifer.com/hosted-assets/brands/js.png" />
+    <title>JavaScript Operator Precedence</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <style type="text/css">
+    body {
+        background-color: hsl(0, 0%, 20%);
+        font-family: monospace;
+        font-size: 15px;
+        margin: 26px;
+    }
+    
+    table {
+        background-color: hsl(0, 0%, 95%);
+        opacity: 0;
+        border-collapse: collapse;
+        width: 100%;
+        transition: opacity 0.5s;
+    }
+    
+    tr:hover {
+        background-color: hsl(192, 100%, 93%);
+    }
+    
+    td {
+        color: hsl(0, 0%, 40%);
+        padding: 3px 15px;
+        white-space: nowrap;
+    }
+    
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+    
+    a:hover {
+        text-decoration: underline;
+    }
+    
+    td:nth-child(1) {
+        background-color: hsl(0, 0%, 43%);
+        text-align: right;
+    }
+    
+    td:nth-child(3) {
+        font-size: 18px;
+        text-align: center;
+        width: 20px;
+    }
+    
+    td:nth-child(4) {
+        color: hsla(0, 0%, 0%, 0.5);
+        text-align: right;
+        width: 20px;
+    }
+    
+    code {
+        xcolor: hsla(0, 0%, 0%, 0.67);
+        color: #fff;
+    }
+    
+    .input {
+        xbackground-color: hsl(32, 94%, 47%);
+        background-color: hsl(192, 70%, 59%);
+        color: #fff;
+        border: none;
+        outline: none;
+        font-family: monospace;
+        font-size: 30px;
+        width: 580px;
+        height: 50px;
+        margin-top: 20px;
+        padding: 10px 20px;
+        text-align: center;
+    }
+    
+    .row-band {
+        background-color: #fff;
+    }
+    
+    #page {
+        background-color: hsl(0, 0%, 20%);
+        margin: 0 auto;
+        width: 660px;
+    }
+    
+    #title {
+        color: #fff;
+        font-size: 37px;
+        padding: 20px 0px;
+        text-align: center;
+    }
+    
+    .input::-webkit-input-placeholder {
+        color: hsl(192, 70%, 74%);
+    }
+    
+    .input:-moz-placeholder {
+        /* Firefox 18- */
+        color: hsl(192, 70%, 74%);
+    }
+    
+    .input::-moz-placeholder {
+        /* Firefox 19+ */
+        color: hsl(192, 70%, 74%);
+    }
+    
+    .input:-ms-input-placeholder {
+        color: hsl(192, 70%, 74%);
+    }
+    /*    .digital-ocean-banner {
+        position: fixed;
+        bottom: 10px;
+        right: 20px;
+    }*/
+    /*!
+ * "Fork me on GitHub" CSS ribbon v0.2.0 | MIT License
+ * https://github.com/simonwhitaker/github-fork-ribbon-css
+*/
+    
+    .github-fork-ribbon {
+        width: 12.1em;
+        height: 12.1em;
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        right: 0;
+        z-index: 9999;
+        pointer-events: none;
+        /*font-size: 13px;*/
+        text-decoration: none;
+        text-indent: -999999px;
+    }
+    
+    .github-fork-ribbon.fixed {
+        position: fixed
+    }
+    
+    .github-fork-ribbon:before,
+    .github-fork-ribbon:after {
+        position: absolute;
+        display: block;
+        width: 15.38em;
+        height: 1.54em;
+        top: 3.23em;
+        right: -3.23em;
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        transform: rotate(45deg)
+    }
+    
+    .github-fork-ribbon:before {
+        content: "";
+        padding: .38em 0;
+        background-color: #E06A4D;
+        background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0.15)));
+        background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.20));
+        background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.20));
+        background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.20));
+        background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.20));
+        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.20));
+        -webkit-box-shadow: 0 .15em .23em 0 rgba(0, 0, 0, 0.5);
+        -moz-box-shadow: 0 .15em .23em 0 rgba(0, 0, 0, 0.5);
+        box-shadow: 0 .15em .23em 0 rgba(0, 0, 0, 0.5);
+        pointer-events: auto;
+    }
+    
+    .github-fork-ribbon:after {
+        content: attr(title);
+        color: #fff;
+        font: 700 1em "Helvetica Neue", Helvetica, Arial, sans-serif;
+        line-height: 1.54em;
+        text-decoration: none;
+        /*text-shadow: 0 -.08em rgba(0, 0, 0, 0.5);*/
+        text-align: center;
+        text-indent: 0;
+        padding: .15em 0;
+        margin: .15em 0;
+        border-width: .08em 0;
+        /*border-style: dotted;*/
+        border-style: none;
+        border-color: #fff;
+        border-color: rgba(255, 255, 255, 0.7)
+    }
+    
+    .github-fork-ribbon.left-top,
+    .github-fork-ribbon.left-bottom {
+        right: auto;
+        left: 0
+    }
+    
+    .github-fork-ribbon.left-bottom,
+    .github-fork-ribbon.right-bottom {
+        top: auto;
+        bottom: 0
+    }
+    
+    .github-fork-ribbon.left-top:before,
+    .github-fork-ribbon.left-top:after,
+    .github-fork-ribbon.left-bottom:before,
+    .github-fork-ribbon.left-bottom:after {
+        right: auto;
+        left: -3.23em
+    }
+    
+    .github-fork-ribbon.left-bottom:before,
+    .github-fork-ribbon.left-bottom:after,
+    .github-fork-ribbon.right-bottom:before,
+    .github-fork-ribbon.right-bottom:after {
+        top: auto;
+        bottom: 3.23em
+    }
+    
+    .github-fork-ribbon.left-top:before,
+    .github-fork-ribbon.left-top:after,
+    .github-fork-ribbon.right-bottom:before,
+    .github-fork-ribbon.right-bottom:after {
+        -webkit-transform: rotate(-45deg);
+        -moz-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        -o-transform: rotate(-45deg);
+        transform: rotate(-45deg)
+    }
+    </style>
+</head>
+
+<body>
+    <a class="github-fork-ribbon fixed" href="https://github.com/hansifer/jsOperatorPrecedence" title="It's on GitHub">It's on GitHub</a>
+    <!-- <a class="digital-ocean-banner" href="https://m.do.co/c/dc2d0518fd53" target="_blank"><img src="digital_ocean_banner.png"></a> -->
+    <div id="page">
+        <div id="title">JavaScript Operator Precedence</div>
+        <div style="text-align:center;margin-bottom:65px;">
+            <input id="input1" type="text" class="input" placeholder="Search first operator" spellcheck="false"></input>
+            <input id="input2" type="text" class="input" placeholder="Search second operator" spellcheck="false"></input>
+        </div>
+        <div>
+            <table>
+                <tr>
+                    <td><code>(  )</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Grouping">Grouping</a></td>
+                    <td>&nbsp;</td>
+                    <td>
+                        <div class="precedence">19</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>.</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_Accessors#Dot_notation">Member Access</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">18</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>[  ]</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_Accessors#Dot_notation">Computed Member Access</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">18</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>new  (  )</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new">new</a> </td>
+                    <td>&nbsp;</td>
+                    <td>
+                        <div class="precedence">18</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>(  )</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions">Function Call</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">17</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>new</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new">new</a>&nbsp;(no args)</td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">17</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>++</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Increment">Postfix Increment</a></td>
+                    <td>&nbsp;</td>
+                    <td>
+                        <div class="precedence">16</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>--</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Decrement">Postfix Decrement</a></td>
+                    <td>&nbsp;</td>
+                    <td>
+                        <div class="precedence">16</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>!</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_Operators#Logical_NOT">Logical NOT</a></td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">15</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>~</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_NOT">Bitwise NOT</a></td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">15</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>+</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Unary_plus">Unary Plus</a></td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">15</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>-</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Unary_negation">Unary Negation</a></td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">15</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>++</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Increment">Prefix Increment</a></td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">15</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>--</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Decrement">Prefix Decrement</a></td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">15</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>typeof</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof">typeof</a></td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">15</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>void</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/void">void</a></td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">15</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>delete</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete">delete</a></td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">15</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>**</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Exponentiation">Exponentiation</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">14</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>*</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Multiplication">Multiplication</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">14</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>/</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Division">Division</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">14</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>%</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Remainder">Remainder</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">14</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>+</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Addition">Addition</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">13</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>-</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Subtraction">Subtraction</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">13</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>&lt;&lt;</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators">Bitwise Left Shift</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">12</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>&gt;&gt;</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators">Bitwise Right Shift</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">12</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>&gt;&gt;&gt;</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators">Bitwise Unsigned Right Shift</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">12</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>&lt;</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comparison_Operators#Less_than_operator">Less Than</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">11</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>&lt;=</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comparison_Operators#Less_than__or_equal_operator">Less Than Or Equal</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">11</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>&gt;</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comparison_Operators#Greater_than_operator">Greater Than</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">11</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>&gt;=</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comparison_Operators#Greater_than_or_equal_operator">Greater Than Or Equal</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">11</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>in</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/in">in</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">11</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>instanceof</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof">instanceof</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">11</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>==</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comparison_Operators#Equality">Equality</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">10</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>!=</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comparison_Operators#Inequality">Inequality</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">10</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>===</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comparison_Operators#Identity">Strict Equality</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">10</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>!==</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comparison_Operators#Nonidentity">Strict Inequality</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">10</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>&amp;</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_AND">Bitwise AND</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">9</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>^</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_XOR">Bitwise XOR</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">8</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>|</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_OR">Bitwise OR</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">7</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>&amp;&amp;</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_Operators#Logical_AND">Logical AND</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">6</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>||</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_Operators#Logical_OR">Logical OR</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">5</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>?  :</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator">Conditional</a></td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">4</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>=</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment_Operators">Assignment</a></td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">3</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>+=</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment_Operators">Assignment</a></td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">3</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>-=</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment_Operators">Assignment</a></td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">3</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>**=</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment_Operators">Assignment</a></td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">3</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>*=</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment_Operators">Assignment</a></td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">3</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>/=</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment_Operators">Assignment</a></td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">3</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>%=</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment_Operators">Assignment</a></td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">3</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>&lt;&lt;=</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment_Operators">Assignment</a></td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">3</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>&gt;&gt;=</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment_Operators">Assignment</a></td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">3</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>&gt;&gt;&gt;=</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment_Operators">Assignment</a></td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">3</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>&amp;=</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment_Operators">Assignment</a></td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">3</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>^=</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment_Operators">Assignment</a></td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">3</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>|=</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Assignment_Operators">Assignment</a></td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">3</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>yield</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/yield">yield</a></td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">2</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>yield*</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/yield*">yield*</a></td>
+                    <td title="right-to-left associativity">&#x2190</td>
+                    <td>
+                        <div class="precedence">2</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>...</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator">Spread</a></td>
+                    <td>&nbsp;</td>
+                    <td>
+                        <div class="precedence">1</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>,</code></td>
+                    <td><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comma_Operator">Comma / Sequence</a></td>
+                    <td title="left-to-right associativity">&#x2192</td>
+                    <td>
+                        <div class="precedence">0</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="jsOperatorPrecedence.js"></script>
+</body>
+
+</html>
